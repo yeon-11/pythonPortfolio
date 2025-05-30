@@ -1,0 +1,17 @@
+{% extends "master.html"%}
+
+{% block title %}
+생성형 AI members
+{% endblock %}
+
+{% block content %}
+<h3 class="text-danger">{{ total }}</h3>
+<h3 class="text-primary">{{ mean }}</h3>
+
+<!-- 파이썬 코드 쓰기 : html에 사용하려면 장고 코드 사용하면 파이썬 코드 사용 가능 -->
+{% if greeting == 1%}
+                <h1 class="m1-3">Hello</h1>
+{% else %}
+                <h1>Bye</h1>
+{% endif %}
+{% endblock %}
