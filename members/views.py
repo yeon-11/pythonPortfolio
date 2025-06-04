@@ -1,68 +1,64 @@
-# from django.shortcuts import render
+#from django.shortcuts import render
 from django.http import HttpResponse
-from django.template import loader  # 불러와서 사용
-
-
-def main(request):  # 메인
+from django.template import loader #불러온다는건 그걸 사용하겠다는 의미
+from .models import Member #모델 불러오기
+#메인
+def main(request):
     template = loader.get_template('main.html')
     return HttpResponse(template.render())
-
-
-# numpy(np)
+#numpy
 import numpy as np
 from django.shortcuts import render
-
 
 def syntax(request):
     template = loader.get_template('syntax.html')
     context = {
-        'firstname': '지연',
-        'lastname': '박',
+        'firstname':'영일',
+        'lastname':'황',
     }
     return HttpResponse(template.render(context, request))
-
 
 def ifelse(request):
     template = loader.get_template('ifelse.html')
     context = {
-        'greeting': 1,
+        'greeting':2,
     }
     return HttpResponse(template.render(context, request))
-
-
-def forloop(request):
-    template = loader.get_template('forloop.html')
-    context = {
-        'cars': [
-            {
-                'brand': 'Ford',
-                'model': 'Mustang',
-                'year': '1964',
-            },
-            {
-                'brand': 'Ford',
-                'model': 'Bronco',
-                'year': '1970',
-            },
-            {
-                'brand': 'Volvo',
-                'model': 'P1800',
-                'year': '1964',
-            }]
-    }
-    return HttpResponse(template.render(context, request))
-
 
 def members(request):
-    arr = np.array([1, 2, 3, 4, 5])  # 배열 생성
-    total = np.sum(arr)  # 배열 합
-    mean = np.mean(arr)  # 배열 평균
-
+    mymembers = Member.objects.all().values()
+    template = loader.get_template('all_members.html')
     context = {
-        'greeting': 1,
-        'total': total,
-        'mean': mean,
+        'mymembers':mymembers,
     }
-    return render(request, 'members.html', context)
+    return HttpResponse(template.render(context, request))
 
-# Create your views here.
+def forloop(request):
+ template = loader.get_template('forloop.html')
+ context = {
+     'cars': [
+         {
+             'brand': 'Ford',
+             'model': 'Mustang',
+             'year': '1964',
+         },
+         {
+             'brand': 'Ford',
+             'model': 'Bronco',
+             'year': '1970',
+         },
+         {
+             'brand': 'Volvo',
+             'model': 'P1800',
+             'year': '1964',
+         }]
+ }
+ return HttpResponse(template.render(context, request))
+
+def details(request, id):
+  mymember = Member.objects.get(id=id)
+  template = loader.get_template('details.html')
+  context = {
+    'mymember': mymember,
+  }
+  return HttpResponse(template.render(context, request))
